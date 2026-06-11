@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <title>USDKRW 거래시간 및 데이터 변경 안내</title>
+        <style>
+            :root {
+                --navy: #243a85;
+                --navy-soft: #eef1fb;
+                --blue: #2f64d6;
+                --green: #1d9e75;
+                --text: #1f1f1f;
+                --text-2: #4a4a4a;
+                --text-3: #8a8a8a;
+                --line: #e6e7eb;
+                --bg: #ffffff;
+                --bg-soft: #f4f5f8;
+            }
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                background: #ffffff;
+                font-family:
+                    "Spoqa Han Sans Neo", "Apple SD Gothic Neo",
+                    "Malgun Gothic", system-ui, sans-serif;
+                -webkit-font-smoothing: antialiased;
+                color: var(--text);
+            }
+            .notice {
+                width: 540px;
+                border-radius: 0;
+                overflow: hidden;
+                background: var(--bg);
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* ── Header ─────────────────────────────────── */
+            .header {
+                background: var(--navy);
+                padding: 14px 0;
+            }
+            .header img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+
+            /* ── Body ───────────────────────────────────── */
+            .body {
+                padding: 22px 26px 22px;
+            }
+            .lede {
+                font-size: 16px;
+                line-height: 1.7;
+                color: var(--text);
+                margin: 0 0 26px;
+            }
+            .lede b {
+                font-weight: 700;
+            }
+
+            /* ── Section block ──────────────────────────── */
+            .sec {
+                margin-bottom: 32px;
+            }
+            .sec:last-child {
+                margin-bottom: 20px;
+            }
+            .sec-head {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            .sec-num {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 22px;
+                height: 22px;
+                background: var(--navy);
+                color: #fff;
+                border-radius: 50%;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 0;
+            }
+            .sec-title {
+                font-size: 17px;
+                font-weight: 700;
+                color: var(--text);
+                margin: 0;
+            }
+            .sec-body {
+                font-size: 15px;
+                line-height: 1.7;
+                color: var(--text-2);
+            }
+            .sec-body ul {
+                list-style: none;
+                padding: 0;
+                margin: 6px 0 0;
+            }
+            .sec-body li {
+                position: relative;
+                padding-left: 12px;
+                margin-bottom: 2px;
+            }
+            .sec-body li::before {
+                content: "-";
+                position: absolute;
+                left: 0;
+                color: var(--text-2);
+            }
+            .sec-body b {
+                color: var(--text);
+                font-weight: 700;
+            }
+            .chart-desc {
+                line-height: 1.55;
+            }
+            .chart-desc-main,
+            .chart-desc-note {
+                display: block;
+            }
+            .chart-desc-note {
+                margin-top: 4px;
+            }
+
+            /* ── Time pill (before/after) ───────────────── */
+            .pill-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 14px 0 14px;
+                padding: 10px;
+                width: 100%;
+                box-sizing: border-box;
+                justify-content: center;
+                background: transparent;
+                border: 1px solid var(--line);
+                border-radius: 0;
+                flex-wrap: wrap;
+            }
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 8px 20px;
+                border-radius: 999px;
+                font-size: 14.5px;
+                font-weight: 600;
+                background: #e9ecf2;
+                color: #4a4a4a;
+                border: 1px solid #dde0e8;
+            }
+            .pill.after {
+                background: #2f64d6;
+                color: #fff;
+                border-color: transparent;
+            }
+            .arr {
+                font-size: 16px;
+                color: var(--text-3);
+            }
+
+            /* ── Code change card ──────────────────────── */
+            .code-card {
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                overflow: hidden;
+                margin-top: 12px;
+            }
+            .cb {
+                display: inline-block;
+                padding: 2px 7px;
+                border-radius: 4px;
+                font-family:
+                    "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+                font-size: 13px;
+                font-weight: 500;
+                white-space: nowrap;
+            }
+            .cb-b {
+                background: #dde7f8;
+                color: #1f3b78;
+            }
+            .cb-g {
+                background: #d5ebd9;
+                color: #1f5a32;
+            }
+            .cb-n {
+                background: #eef0f4;
+                color: #5a5a5a;
+            }
+            .new-tag {
+                display: inline-block;
+                margin-left: 4px;
+                padding: 1px 5px;
+                border-radius: 3px;
+                background: #1d9e75;
+                color: #fff;
+                font-size: 11px;
+                font-weight: 700;
+                vertical-align: middle;
+                letter-spacing: 0.04em;
+            }
+
+            /* ── Full code table ───────────────────────── */
+            .ct {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 14px;
+            }
+            .ct th {
+                padding: 8px 10px;
+                text-align: center;
+                font-size: 12.5px;
+                font-weight: 600;
+                color: var(--text-3);
+                background: var(--bg-soft);
+                letter-spacing: 0.04em;
+                border-bottom: 1px solid var(--line);
+            }
+            .ct th + th,
+            .ct td + td {
+                border-left: 1px solid var(--line);
+            }
+            .ct td {
+                padding: 6px 10px;
+                border-bottom: 1px solid var(--line);
+                vertical-align: middle;
+                line-height: 1.5;
+                color: var(--text-2);
+            }
+            .ct td.mid {
+                text-align: center;
+                font-size: 13.5px;
+            }
+            .ct tr:last-child td {
+                border-bottom: none;
+            }
+            .ct .gb td {
+                border-bottom: 1px solid var(--line);
+            }
+            .ct td.code-cell {
+                padding: 5px 10px;
+            }
+
+            /* ── Aside note ─────────────────────────────── */
+            .aside {
+                background: #f6f7fb;
+                border-left: 3px solid #c9d0e2;
+                padding: 10px 14px;
+                margin-top: 12px;
+                font-size: 14px;
+                color: var(--text-2);
+                line-height: 1.65;
+                border-radius: 0 6px 6px 0;
+            }
+
+            /* ── Menu path ──────────────────────────────── */
+            .menu-block {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 6px 0 8px;
+                padding: 12px 14px;
+                border-top: 1px solid var(--line);
+                border-bottom: 1px solid var(--line);
+            }
+            .crumb {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 15px;
+                color: var(--text-2);
+            }
+            .crumb .sep {
+                color: #b3b8c1;
+                margin: 0 1px;
+                font-size: 13px;
+            }
+            .btn {
+                background: var(--blue);
+                color: #fff;
+                font-size: 14.5px;
+                font-weight: 600;
+                border-radius: 4px;
+                padding: 7px 14px;
+                text-decoration: none;
+            }
+
+            /* ── Screenshot block ───────────────────────── */
+            .screen-label {
+                font-size: 14.5px;
+                color: var(--text);
+                margin: 14px 0 6px;
+                font-weight: 600;
+            }
+            .screen-label .tag {
+                color: var(--text-3);
+                font-weight: 700;
+                margin-right: 4px;
+            }
+            .shot {
+                width: 100%;
+                display: block;
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                box-sizing: border-box;
+            }
+
+            /* ── Footer ─────────────────────────────────── */
+            .footer {
+                background: #41484e;
+                padding: 16px 20px 18px;
+                text-align: center;
+                font-size: 14px;
+                color: #e7e9ea;
+                line-height: 1.7;
+            }
+            .footer .ft-line {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 600;
+                color: #f2f3f4;
+            }
+            .footer .ft-sub {
+                color: #a8adb0;
+                font-size: 13.5px;
+                margin-top: 2px;
+            }
+            .ft-ico {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 16px;
+                height: 16px;
+            }
+            .ft-ico img {
+                display: block;
+                width: 16px;
+                height: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="notice">
+            <!-- HEADER -->
+            <div class="header">
+                <img
+                    src="USDKRW_header.png"
+                    alt="USDKRW 거래시간 및 데이터 변경 안내"
+                />
+            </div>
+
+            <div class="body">
+                <p class="lede">
+                    <span
+                        style="
+                            font-size: 19px;
+                            font-weight: 700;
+                            line-height: 1.45;
+                            display: block;
+                            margin-bottom: 8px;
+                        "
+                    >
+                        2026년 6월 29일(월)부터<br />
+                        역내 USDKRW 거래시간이
+                        <span style="color: var(--blue)">24시간 무중단</span
+                        >으로 변경됩니다.
+                    </span>
+                    <span
+                        style="
+                            font-size: 15px;
+                            color: var(--text-2);
+                            line-height: 1.65;
+                            display: block;
+                            white-space: nowrap;
+                            letter-spacing: -0.06em;
+                        "
+                    >
+                        화면·차트·엑셀 데이터에 변경사항이 있어 안내드리오니, 업무에 참고하시기 바랍니다.
+                    </span>
+                </p>
+
+                <!-- ── SECTION 1: 거래시간 확장 ─────────── -->
+                <div class="sec">
+                    <div class="sec-head">
+                        <span class="sec-num">1</span>
+                        <h3 class="sec-title">거래시간 확장</h3>
+                    </div>
+                    <div class="sec-body">
+                        시가·고가·저가·종가는 각 일자의 거래시간을 기준으로
+                        표시되며, 9시 및 15시 30분 값은 별도로
+                        <b>‘09:00 환율’, ‘15:30 환율’</b> 용어로 제공됩니다.
+
+                        <div class="pill-row">
+                            <span class="pill">09:00 ~ 익일 02:00</span>
+                            <span class="arr">→</span>
+                            <span class="pill after">월~토 오전까지 24시간 연속거래</span>
+                        </div>
+
+                        <ul>
+                            <li>
+                                종가 처리 시간
+                                <b>익일 02:00 → 익일 06:00</b> (미국 서머타임
+                                해제 시 07:00)
+                            </li>
+                            <li>
+                                <b>공휴일에도 데이터 동일하게 제공</b>
+                                (매매기준율은 발생하지 않음)
+                            </li>
+                            <li>
+                                <b>참고사항:</b> 12/31 24:00 장종료 · 01/01 휴장 ·
+                                01/02 09:00 개장
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ── SECTION 2: 엑셀 데이터 변경 ────── -->
+                <div class="sec">
+                    <div class="sec-head">
+                        <span class="sec-num">2</span>
+                        <h3 class="sec-title">엑셀 데이터 변경</h3>
+                    </div>
+                    <div class="sec-body">
+                        기존
+                        <span class="cb cb-n">USDSP_xxx</span
+                        >(09:00~15:30)코드는 <br /><b
+                            >06:00~15:30에 실시간 데이터가 표시되지 않으며 15:30 EOD로
+                            제공</b
+                        >됩니다. 
+                        <br />
+                        업무시 데이터 이용에 참고하시기 바랍니다.
+                        <br />
+                        
+
+                        <a
+                            href="https://static1.einfomax.co.kr/html/notice/USDKRW_%EC%97%91%EC%85%80%EC%BD%94%EB%93%9C_%EB%B3%80%EB%8F%99_%EC%82%AC%ED%95%AD.xlsx"
+                            download
+                            style="
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 6px;
+                                margin: 8px 0 14px;
+                                padding: 8px 14px;
+                                background: #f0f4ff;
+                                border: 1px solid #c5d3f0;
+                                border-radius: 6px;
+                                font-size: 14.5px;
+                                font-weight: 600;
+                                color: #2f64d6;
+                                text-decoration: none;
+                            "
+                        >
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                <path d="M8 1v9m0 0L5 7m3 3 3-3" stroke="#2f64d6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 11v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2" stroke="#2f64d6" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            예시파일 및 코드 변환 기능
+                        </a>
+
+                        <div class="code-card">
+                            <table class="ct">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 46%">코드</th>
+                                        <th style="width: 27%">현재</th>
+                                        <th style="width: 27%">2026.06.29 ~</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Group 1: 09:00~15:30 -->
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_SMBC</span
+                                            >
+                                        </td>
+                                        <td class="mid" rowspan="6">
+                                            09:00~15:30
+                                        </td>
+                                        <td class="mid" rowspan="6">
+                                            09:00~15:30<br /><span
+                                                style="
+                                                    color: var(--text-3);
+                                                    font-size: 12.5px;
+                                                "
+                                                >(실시간 조회 불가 / EOD만
+                                                제공)</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_SMBCB</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_KMBCB</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_SMBCC</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_KMBCC</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr class="gb">
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_AMBC</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <!-- Group 2: 09:00~익02:00 -->
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_SMBC_EXT</span
+                                            >
+                                        </td>
+                                        <td class="mid" rowspan="6">
+                                            09:00~익일 02:00
+                                        </td>
+                                        <td class="mid" rowspan="6">
+                                            06:00~익일 06:00<br /><span
+                                                style="
+                                                    color: var(--text-3);
+                                                    font-size: 12.5px;
+                                                "
+                                                >(서머타임 해제 시) <br />
+                                                07:00~익일 07:00</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_SMBCB_EXT</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_KMBCB_EXT</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_SMBCC_EXT</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_KMBCC_EXT</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >USDSP_AMBC_EXT</span
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="screen-label" style="margin-top: 14px">
+                            <span class="tag">[IMDH]</span>기존과 동일하게  사용가능
+                        </p>
+                        <img class="shot" src="imdh.png" alt="IMDH 화면 예시" />
+                        <p class="screen-label">
+                            <span class="tag">[IMDP 실시간]</span>15:30에 업데이트
+                        </p>
+                        <img class="shot" src="real.png" alt="실시간 화면 예시" />
+                        <p class="screen-label">
+                            <span class="tag">[Convertor]</span>실시간 조회하는 함수만 찾아 자동으로 변환
+                        </p>
+                        <img class="shot" src="convert.png" alt="Convertor 메뉴 예시" style="width: 60%; height: auto" />
+                    </div>
+                </div>
+
+                <!-- ── SECTION 3: 차트 데이터 변경 ─────── -->
+                <div class="sec">
+                    <div class="sec-head">
+                        <span class="sec-num">3</span>
+                        <h3 class="sec-title">차트 데이터 변경</h3>
+                    </div>
+                    <div class="sec-body chart-desc">
+                        <span class="chart-desc-main">
+                            기존
+                            <span class="cb cb-n">USDSP-체결</span>(09:00~15:30)과
+                            같은 종목명은
+                            <span class="cb cb-g">…-09:00~15:30</span>으로
+                            수정됩니다.
+                        </span>
+                        <span class="chart-desc-note">
+                            <b>틱초분 조회가 불가능하며, 15:30에 일 단위로 제공</b>됩니다.
+                        </span>
+
+                        <div class="code-card">
+                            <table class="ct">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 26%">
+                                            종목명 접미사
+                                        </th>
+                                        <th style="width: 26%">현재</th>
+                                        <th style="width: 26%">2026.06.29 ~</th>
+                                        <th style="width: 22%">수정 접미사</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Group 1: 체결/중간값 -->
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b">-체결</span>
+                                        </td>
+                                        <td class="mid" rowspan="2">
+                                            09:00~15:30
+                                        </td>
+                                        <td class="mid" rowspan="2">
+                                            09:00~15:30<br /><span
+                                                style="
+                                                    color: var(--text-3);
+                                                    font-size: 12.5px;
+                                                "
+                                                >(틱초분 조회 불가 / EOD만
+                                                제공)</span
+                                            >
+                                        </td>
+                                        <td class="mid" rowspan="2">
+                                            <span class="cb cb-g"
+                                                >-09:00~15:30</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr class="gb">
+                                        <td class="code-cell">
+                                            <span class="cb cb-b">-중간값</span>
+                                        </td>
+                                    </tr>
+                                    <!-- Group 2: 익일02시 -->
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >-체결-익일02시</span
+                                            >
+                                        </td>
+                                        <td class="mid" rowspan="2">
+                                            09:00~익일 02:00<br />
+                                        </td>
+                                        <td class="mid" rowspan="2">
+                                            06:00~익일 06:00<br /><span
+                                                style="
+                                                    color: var(--text-3);
+                                                    font-size: 12.5px;
+                                                "
+                                                >(서머타임 해제 시)<br />07:00~익일
+                                                07:00</span
+                                            >
+                                        </td>
+                                        <td class="code-cell">
+                                            <span class="cb cb-g">-체결</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="code-cell">
+                                            <span class="cb cb-b"
+                                                >-중간값-익일02시</span
+                                            >
+                                        </td>
+                                        <td class="code-cell">
+                                            <span class="cb cb-g">-중간값</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Footer ─────────────────────────── -->
+            <div class="footer">
+                <div class="ft-line">
+                    [화면문의]
+                    <span class="ft-ico" aria-hidden="true">
+                        <img src="infotalk_icon.png" alt="" />
+                    </span>
+                    인포톡
+                    <span style="color: #b7bbbd; font-weight: 500"
+                        >(화면 우측 상단)</span
+                    >
+                </div>
+                <div class="ft-sub">
+                    ※ 화면 바로가기는 PC에서만 가능합니다. (모바일 화면 열기
+                    불가)
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
